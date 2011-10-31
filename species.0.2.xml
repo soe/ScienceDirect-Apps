@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+    <ModulePrefs
+            title="Species+"
+            screenshot="http://science-plus.appspot.com/static/species_screenshot.png"
+            thumbnail="http://science-plus.appspot.com/static/species_thumbnail.png"
+            description="Species+ extracts species inside articles and display rich species data right inside ScienceDirect view."
+            author="Science Plus"
+            author_email="soe@soe.im">
+        <Require feature="opensocial-0.9" />
+        <Require feature="osapi" /> 
+        <Require feature="dynamic-height" />
+        <Require feature="sciverse" />
+        <Require feature="org.jquery.core-1.4.2" />
+        <Require feature="views"/>
+        <Icon>http://science-plus.appspot.com/static/speices_icon.ico</Icon>
+    </ModulePrefs>
+
+    <Content type="html" view="profile">
+	
+	<![CDATA[
+	    <style type="text/css">
+	    * { margin: 0; padding: 0; font-family: Verdana, Tahoma, sans-serif; font-size: 12px; line-height: 138%; }
+	    #species { padding: 4px; width: 96%; }
+	    
+	    #species #links { width: 96%; padding-bottom: 10px; border-bottom: 1px solid #eee; margin-bottom: 8px; }
+	    a.species { display: inline-block; padding: 3px 6px; margin: 3px; background: #fdfadd; 
+	        -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; border: 1px solid #ddd; }
+	    a.species:hover { background: #fdf7bc; } 
+	    
+	    #species div#count { padding: 6px; margin: 8px 2px; background: #39c; color: #fff; font-size: 14px; font-weight: 400;
+	        -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; }  
+	    #searchbox { width: 180px; padding: 2px; font-size: 12px; margin-right: 6px; margin-left: 4px; }
+        #searchbutton { font-size: 11px; padding: 3px 8px; background: #76b637; color: #fff; border: 1px solid #777; cursor: pointer;
+            -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; } 
+	    
+	    #demo { margin: 0px; margin-bottom: 0; padding: 4px; background: #f8f8f8; color: #444; clear: both; }
+        a#toggle { background: #f8f8f8; display: block; width: 68px; margin-top: 6px; text-decoration: none; color: #222; padding: 2px 6px;}
+	    </style>
+		<script type="text/javascript">
+        $(document).ready(function(){
+            function getSpecies(){
+                gadgets.sciverse.getArticleContent(function(art){
+                    var species = [];
+
+                    var $suspects = $(art).find('.articleText i');
+                    //var $suspects = $(art).find('i');
+
+                    $suspects.each(function(idx, ele) {
+                        var a = $.trim($(ele).text()).match(/[A-Z][\w]{3,30} [a-z]{4,30}|^[A-Z]{0,1}[\w]{4,30}/);
+                        if(a && $.inArray(String(a), species) == '-1')
+                            species.push(String(a)); 
+                    }); // end $suspects each
+
+                    if(species.length > 0) 
+                        $('#species #count').append(species.length + ' species has been detected... <br />Click to explore...');
+                    else
+                        $('#species #count').append('No species has been detected... <br />Do a custom search or check out the demo...');
+
+                    var content = '';
+                    for(s in species) {
+                        content += '<a class="species" href="'+species[s]+'">'+species[s]+'</a>';
+                    }
+
+                    $('#species #links').html(content);
+                    gadgets.window.adjustHeight();
+                }); // end getArticleContent
+            } // end getSpecies
+
+            $('a.species').live('click', function() {
+                showHover({search: $(this).attr('href')});
+                return false;
+            });
+
+            $('#searchbutton').bind('click', function() {
+                if($('#searchbox').val().length > 3)    
+                    showHover({search: $('#searchbox').val()});
+                else
+                    $('#searchbox').css('background', '#fcd7ce');
+                return false;
+            });
+            
+            $('a#toggle').bind('click', function() {
+               $('#demo').toggle();
+               
+               if($(this).text() == '[+] Demo') $(this).text('[-] Demo');
+               else $(this).text('[+] Demo');
+               
+               gadgets.window.adjustHeight();
+               return false; 
+            });
+
+            function showHover(params){
+                $('#searchbox').css('background', '#fff');
+                gadgets.sciverse.showHoverView(params, {width: 400, height: 440}, function(idx){
+                    if(idx > 0) gadgets.sciverse.closeHover(idx-1);
+                });
+            }
+
+            getSpecies();
+
+        }); // end document ready
+		</script>
+		
+		<!-- The code for Profile view is here. -->
+		<div id="species">
+		    <div id="count"></div>
+		    <div id="links"></div>
+		    <input type="text" id="searchbox" value="" />
+		    <input type="button" id="searchbutton" value="Search" />
+		    
+		    <div style="border-bottom: 1px solid #eee; margin: 10px 0 4px 0;"></div>
+		    <a id="toggle" href="#">[+] Demo</a>
+		    <div id="demo" style="display: none;">
+		        <a class="species" href="Apis mellifera">Apis mellifera</a> 
+		        <a class="species" href="Pulicaria dysenterica L">Pulicaria dysenterica</a> 
+		        <a class="species" href="Plicaturopsis crispa">Plicaturopsis crispa</a>
+		        <a class="species" href="Magnoliopsida Dicotyledons">Magnoliopsida Dicotyledons</a>
+		        <a class="species" href="Homarus gammarus">Homarus gammarus</a>
+		        <div style="clear: both;"></div>
+		    </div>
+		</div>
+	]]>
+
+	</Content>
+
+    <Content type="html" view="hover">
+	<![CDATA[
+    	<style type="text/css">
+        * { margin: 0; padding: 0; font-family: Verdana, Tahoma, sans-serif; font-size: 12px; line-height: 138%; }
+        li { margin-bottom: 3px; padding: 4px 2px; }
+        #images img, #distribution { padding: 1px; margin: 2px; border: 1px solid #eee; }
+        #images { max-height: 186px; overflow: hidden; }
+        #hoverSearch, #hoverInfo, #hoverCredit { padding: 4px; }
+    
+        #searchresults { border-top: 1px solid #eee; margin-top: 6px; padding-top: 10px; padding-left: 4px; }
+        #searchbox { width: 280px; padding: 2px; font-size: 14px; margin-right: 6px; }
+        #searchbutton { font-size: 13px; padding: 3px 8px; background: #76b637; color: #fff; border: 1px solid #777; cursor: pointer; 
+            -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px;}
+        li:hover { background: #eee; }
+        
+        h2 { font-size: 16px; font-weight: 400; background: #39c; color: #fff; border-bottom: 1px solid #f8f8f8; padding: 4px; margin-bottom: 4px; }
+        h3 { font-size: 13px; font-weight: 400; border-bottom: 1px solid #777; font-style: italic; padding: 1px; margin-top: 4px; margin-bottom: 4px; }
+        
+        #back, #poweredby, #close { position: fixed; right: 0; padding: 2px 4px; font-size: 10px; opacity: 0.8; cursor: pointer; }
+        #back, #close { top: 0; background: #39c; color: #fff; }
+        #poweredby { bottom: 0; background: #76b637; color: #fff; }
+        #back:hover, #poweredby:hover, #close:hover { opacity: 1; }
+        a.close {padding: 2px 4px; font-size: 10px; cursor: pointer; background: #39c; color: #fff;}
+        
+        .loading{ margin-top: 20px; margin-left: 20px; padding-left: 48px; background: url('http://i.imgur.com/SJAH1.gif') no-repeat transparent;}
+        .error { clear: both; margin-top: 10px; padding: 3px; background: #fcd7ce; border: 1px solid #888; }
+        
+        </style>
+		<script type="text/javascript">
+        var vp = gadgets.views.getParams();
+        //document.getElementById('vp').innerHTML = gadgets.json.stringify(vp);
+        //s = vp['data'];
+        
+        $(document).ready(function() {
+            $('#searchbox').val(vp['search']);
+
+            // call ajax search
+            doSearch(vp['search']);
+
+            $('.result').live('click', function() {
+                showInfo($(this).attr('href'));
+                return false;
+            });
+
+            $('#back').bind('click', function() {
+                $('#hoverSearch').show();
+                $('#hoverInfo').hide();
+                $('#mode').val(0);
+            });
+
+            $('#poweredby').bind('click', function() {
+                $('#hoverSearch').hide();
+                $('#hoverInfo').hide();
+                $('#hoverCredit').show();
+            });
+
+            $('.close').bind('click', closeCredit);
+
+            function closeCredit() {
+                if($('#mode').val() == 1) $('#hoverInfo').show();
+                else $('#hoverSearch').show();
+                $('#hoverCredit').hide();
+            }
+
+            $('#searchbutton').bind('click', function() {
+                if($('#searchbox').val().length > 3)    
+                    doSearch($('#searchbox').val());
+                else
+                    $('#searchbox').css('background', '#fcd7ce');
+                return false;
+            });
+
+            function doSearch(search) {
+                $('#searchbox').css('background', '#fff');
+                $('#searchresults').html('<div class="loading">Loading ...</div>');
+                
+                osapi.http.get({
+                    'href' : 'http://www.eol.org/api/search/'+escape(search)+'.json',
+                    'format' : 'json',
+                    'authz' : 'none'
+                }).execute(function(resp) {
+                    if(resp.error != undefined) {
+                        //console.log(resp.error);
+                        $('#content').html('<div class="error">Encountered error in calling a search. Please try again.</div>');
+                        return;
+                    }
+
+
+                    var content = '<ol>';
+                    $.each(resp.content.results, function(i, result) {
+                        content += '<li><a class="result" href="'+result.id+'">'+result.title+'</a></li>';
+                    });
+                    content += '</ol>';
+
+                    if(resp.content.results.length == 0)
+                        content = '<div class="error">Sorry, try another keyword.</div>';
+
+                    $('#searchresults .loading').hide();
+                    $('#searchresults').append(content);
+                }); // end osapi
+            } // end doSearch
+
+            function showInfo(id) {
+                $('#hoverSearch').hide();
+                $('#hoverInfo').show();
+                $('#mode').val(1);
+
+                if(id == $('#id').val()) return;
+
+                $('#id').val(id);
+                $('#content').html('<div class="loading">Loading ...</div>');
+
+                var href = 'http://www.eol.org/api/pages/1.0/';
+                href += id;
+                href += '.json?exact=1&common_names=1&images=7&text=30&details=1&subjects=';
+                href += escape('GeneralDescription|Distribution|TaxonBiology|ConservationStatus');	
+       
+                //console.log(href);
+                osapi.http.get({
+                    'href' : href,
+                    'format' : 'json',
+                    'authz' : 'none'
+                }).execute(function(resp) {
+                    if(resp.error != undefined) {
+                        //console.log(resp.error);
+                        $('#content').html('<div class="error">Encountered error in calling a search. Please try again.</div>');
+                        return;
+                    }
+
+                    //console.log(resp.content);
+                    var content = '<h2>'+resp.content.scientificName+'</h2>';
+                    var images = '<h3>Images</h3>';
+                    var names= '';
+
+                    content += '<a href="http://www.eol.org/pages/'+id+'" target="_blank" style="font-size: 11px; float: right;" >source: Encyclopedia of Life</a>';
+
+                    if(j = resp.content.vernacularNames.length) {
+                        content += '<div id="names"><h3>Other names</h3></div>';
+                        if(j >= 5) j = 5; 
+                        for(i=0; i < j; i++) {
+                            names += resp.content.vernacularNames[i].vernacularName + ', ';   
+                        }
+                        content += '<div id="images"></div>';
+                    } // end if
+
+                    $.each(resp.content.dataObjects, function(i, obj) {
+                        if(obj.dataType.search('StillImage') > 0) {
+                            images += '<img src="'+obj.eolThumbnailURL+'" height="70px" class="image" />';
+                            return;
+    
+                        } else if(obj.subject) {
+                            if(obj.subject.search('#GeneralDescription') > 0) {
+                                content += '<h3>Description</h3>';
+                                content += obj.description;
+                                return;
+                            }
+
+                            if(obj.subject.search('#Distribution') > 0) {
+                                if(obj.source.search('discoverlife.org') > 0) {
+                                    content += '<h3>Distribution</h3>';
+                                    content += '<img onerror="noImage(this)" src='+obj.source.replace('q?search', 'm?map')+'" width="370px" id="distribution" />';
+                                }
+                                return;
+                            }
+    
+                            if(obj.subject.search('#TaxonBiology') > 0) {
+                                content += '<h3>Biology</h3>';
+                                content += obj.description;
+                                return;
+                            }
+    
+                            if(obj.subject.search('#ConservationStatus') > 0) {
+                                content += '<h3>Conservation Status</h3>';
+                                content += obj.description;
+                                return;
+                            }
+                        } // end obj.subject
+
+                    }); // end each loop
+
+                    if(resp.content.dataObjects.length == 0) {
+                        content += '<div class="error">Name not in Species 2000 & ITIS Catalogue of Life: Annual Checklist 2010 . Select an alternate hierarchy from the search results.</div>';
+                    }
+
+                    $('#content .loading').hide();
+                    $('#content').append(content);
+                    $('#images').append(images);
+                    if(names) $('#names').append(names);
+                }); // end osap
+            } // end showInfo
+        }); // end document ready
+        
+	    function noImage(image) {
+            $(image).after('<p>There is no image for this species currently.</p>').remove();
+        }
+		</script>
+		<!-- The code for Hover view is here. -->
+		<div id="hoverSearch">
+		    <input type="text" id="searchbox" value="" />
+		    <input type="button" id="searchbutton" value="Search" />
+		    <div id="searchresults">
+		        <div class="loading">Loading ...</div>
+		    </div>
+		</div>
+		
+		<div id="hoverInfo" style="display:none;">
+		    <div id="back">&lt; back to search</div>
+		    <div id="content">
+		        <div class="loading">Loading ...</div>
+		    </div>
+		</div>
+		<div id="hoverCredit" style="display:none;">
+		    <h2>Thank you!</h2>
+		    <p>Species data is primarily retrieved from <a href="http://www.eol.org/" target="_blank">Encyclopedia of Life</a> (EOL).
+		    And species distribution map is rendered by <a href="http://www.discoverlife.org/" target="_blank">Discover Life</a> with data from
+		    <a href="http://www.gbif.org/" target="_blank">Global Diversity Information Facility</a> (GBIF).</p>
+		    <br />
+		    <p><i>EOL</i> aggreates species data from various sources and contributors with Creative Commons licensing. To explore licensing details, click the "source" link
+		    underneath the title of a specific species. The link would direct to the corresponding EOL page.</p>
+		    <img src="http://i.imgur.com/3X0xi.gif" style="float: left; margin: 4px; height: 60px;" />
+		    <img src="http://i.imgur.com/ePuSw.gif" style="float: left; margin: 4px; height: 60px;" />
+		    <div style="clear: both;"></div>
+		    <br /><p>More information @ <a href="http://science-plus.appspot.com" target="_blank">SciencePlus</a></p>
+		    <br />
+		    <div id="close" class="close">X Close</div>
+		    <a href="javascript:closeCredit()" class="close">X Close</a>		    
+		</div>
+		<input type="hidden" id="mode" val="" />
+		<input type="hidden" id="id" val="" />
+		
+		<div id="poweredby">via EOL &amp; others</div>
+	]]>
+	</Content>
+</Module>
