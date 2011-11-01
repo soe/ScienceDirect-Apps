@@ -201,8 +201,10 @@
                     cL += '<img onerror="noImage(this)" src="http://exoplanet.hanno-rein.de/size.php?id='+String(c.NAME).replace(/\s|\_/g, '+')+'&raster=1&format=png" width="280px"/>';
 
                     cL += '<h3>Sources</h3>';
-                    cL += '<a href="http://exoplanets.org/oneup/?'+String(c.NAME).replace(/\s|\_/g, '+')+' target="_blank">Exoplanets.org</a>';
-                    cL += '<br /><a href="http://exoplanet.hanno-rein.de/system.php?id='+String(c.NAME).replace(/\s|\_/g, '+')+'" target="_blank">Visual Exoplanet</a>';
+                    //cL += '<a href="http://exoplanets.org/oneup/?'+String(c.NAME).replace(/\s|\_/g, '+')+' target="_blank">Exoplanets.org</a>';
+                    //cL += '<br /><a href="http://exoplanet.hanno-rein.de/system.php?id='+String(c.NAME).replace(/\s|\_/g, '+')+'" target="_blank">Visual Exoplanet</a>';
+                    cL += '<a href="http://exoplanets.org/" target="_blank">Exoplanets.org</a>';
+                    cL += '<br /><a href="http://exoplanet.hanno-rein.de/complete.php" target="_blank">Visual Exoplanet</a>';
                     cL += '<br />NStED, SIMBAD, Exoplanet.eu, Exoplant Transit Database';
 
                     // Content Right Column
