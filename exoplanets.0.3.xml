@@ -4,7 +4,7 @@
             title="Exoplanets+"
             screenshot="http://science-plus.appspot.com/static/exoplanets_screenshot.png"
             thumbnail="http://science-plus.appspot.com/static/exoplanets_thumbnail.png"
-            description="Exoplanets+ extracts exoplanets (extrasolar planets) inside articles and disply rich exoplanet data right inside ScienceDirect view."
+            description="Exoplanets+ extracts exoplanets (extrasolar planets) inside articles and disply rich exoplanet data right inside ScienceDirect view.﻿ Exoplanets+ brings rich and visual data of 450+ planets to your finger tips. Cross-referencing exoplanets while doing research is as blissful as you wished."
             author="Science Plus"
             author_email="soe@soe.im">
         <Require feature="opensocial-0.9" />
@@ -15,11 +15,7 @@
         <Require feature="views"/>
         <Icon>http://science-plus.appspot.com/static/exoplanets_icon.ico</Icon>
     </ModulePrefs>
-    
-    <UserPref name="serviceUrl" datatype="hidden" default_value="http://tryit.elsevier.com/oms/OpenMinerService"/>
-    <UserPref name="tairUrl" datatype="hidden" default_value="wwwnew.arabidopsis.org/locus/"/>
-    <UserPref name="doi" datatype="hidden"/>
-    
+
     <Content type="html" view="profile">
 	
 	<![CDATA[
@@ -32,8 +28,12 @@
 	        -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; border: 1px solid #ddd; }
 	    a.planets:hover { background: #fdf7bc; } 
 	    
-	    #planets div#count { padding: 6px; margin: 8px 2px; background: #39c; color: #fff; font-size: 14px; font-weight: 400;
-	        -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; }  
+	    #planets div#count { padding: 6px; margin: 8px 2px; background: #39c; text-shadow: 0px 1px 2px #ddd; color: #fff; font-size: 14px; font-weight: 400;
+	        -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px;
+              -moz-box-shadow: 2px 2px 2px #ccc;
+              -webkit-box-shadow: 2px 2px 2px #ccc;
+              box-shadow: 2px 2px 2px #ccc;
+            }
 	        
         #searchbox { width: 180px; padding: 2px; font-size: 12px; margin-right: 6px; margin-left: 4px; }
         #searchbutton { font-size: 11px; padding: 3px 8px; background: #76b637; color: #fff; border: 1px solid #777; cursor: pointer;
@@ -51,13 +51,20 @@
                     //art = "fsdfsdaf HD 213240 b f sdfsdf fsdfdsf fsdfsafsaf HD 213240 b. fdsfsa fdsafsdaf ssdf fsd fsdfs fsdfs Kepler-11 g. dsfdsf  fdsafs fsdfs.";
                     //art += "dsfsdf WASP-25 b fdsfsdf HD 213240 b f WASP-25. fdsfds ffdsfs fdsf XO-1 b. fdsfdsf sfsdf fsdf fsdfsd XO-5 b. fdsfds fsdf srewrw epsilon Eri b. fdfds HD 217107 b fdfdsf fsdfds.";
                     
-                    pattern = /([0-9]{2}(\s|\-)[\w]{3}(\s|\-)[\w]{1}((\s|\-)[a-z]{1}[\W]|)|bd(\s|\-)(\+|\-)[0-9]{2}(\s|\-)[0-9]{4}(\s|\-)[\w]|corot-[0-9]{1,2}(\s|\-)[\w]|gj(\s|\-)[0-9]{2,4}(\s|\-)[\w]((\s|\-)[a-z]{1}[\W]|)|hat\-p\-[0-9]{1,2}(\s|\-)[\w]|hd(\s|\-)[0-9]{2,6}(\s|\-)[\w]((\s|\-)[a-z]{1}[\W]|)|hip(\s|\-)[0-9]{4,5}(\s|\-)[\w]|koi\-[0-9]{3}(\s|\-)[\w]|kepler\-[0-9]{1,2}(\s|\-)[\w]|ngc(\s|\-)[0-9]{4}(\s|\-)[0-9]{1,3}(\s|\-)[\w]|ogle[\w]{0,1}\-tr\-[\w]{2,3}(\s|\-)[\w]|tres\-[0-9](\s|\-)[\w]|wasp\-[0-9]{1,2}(\s|\-)[\w]|xo\-[0-9](\s|\-)[\w]|(alpha|epsilon|gamma|iota|kappa|mu|rho|tau|upsilon|xi)(\s|\-)[\w]{3}(\s|\-)[\w])/ig;
+                    pattern = /[\W][0-9]{1,2}(\s|\-)?(ari|cet|com|cyg|cnc|del|dra|her|lyn|peg|sex|uma|umi|vir)(\s|\-)?[b-f]?(\s|\-)?[b]?[\W]|[\W]14(\s|\-)?and(\s|\-)?[b]?[\W]|[\W]bd(\s|\-)?(\+|\-)[0-9]{2}(\s|\-)?[0-9]{3,4}(\s|\-)?[b-c]?[\W]|[\W]corot(\s|\-)?[0-9]{1,2}(\s|\-)?[b]?[\W]|[\W]gj(\s|\-)?[0-9]{2,4}(\s|\-)?[a-e]?(\s|\-)?[a-e]?[\W]|[\W]hat(\s|\-)?[p](\s|\-)?[0-9]{1,2}(\s|\-)?[b-c]?[\W]|[\W]hd(\s|\-)?[0-9]{2,6}(\s|\-)?[a-i]?(\s|\-)?[a-e]?[\W]|[\W]hip(\s|\-)?[0-9]{4,5}(\s|\-)?[b-d]?[\W]|[\W]koi(\s|\-)?[0-9]{3}(\s|\-)?[b]?[\W]|[\W]kepler(\s|\-)?[0-9]{1,2}(\s|\-)?[b-g]?[\W]|[\W]ngc(\s|\-)?(2423|4349)(\s|\-)?(3|127)(\s|\-)?[b]?[\W]|[\W]ogle(\s|\-)?tr(\s|\-)?[0-9]{2,3}(\s|\-)?[b]?[\W]|[\W]ogle2(\s|\-)?tr(\s|\-)?[l][0-9](\s|\-)?[b]?[\W]|[\W](qatar|tres|wasp|xo)(\s|\-)?[0-9](\s|\-)?[b]?[\W]|[\W](alpha|beta|epsilon|gamma|iota|kappa|mu|rho|tau|upsilon|xi)(\s|\-)[a-z]{3}(\s|\-)?[a-e]?(\s|\-)?[b]?[\W]/ig;
                     var matches = art.match(pattern);
                     
+                    //console.log(matches);
+                    
                     for(m in matches) {
-                        if($.inArray(String(matches[m]), planets) == '-1')
-                            planets.push(String(matches[m]));
+                        var p = String(matches[m]);
+                        p = $.trim(p.replace(/[\>\<\.,:''"")(]/gi, ''));
+                        
+                        if($.inArray(p, planets) == '-1')
+                            planets.push(p);
                     }
+                    
+                    //console.log(planets);
                     
                     if(planets.length > 0) 
                         $('#planets #count').append(planets.length + ' exoplanets has been detected... <br />Click to explore...');
@@ -66,7 +73,7 @@
 
                     var content = '';
                     for(p in planets) {
-                        content += '<a class="planets" href="'+$.trim(planets[p])+'">'+$.trim(planets[p])+'</a>';
+                        content += '<a class="planets" href="'+planets[p].replace(/[\W]/gi, '').toLowerCase()+'">'+$.trim(planets[p].replace(/[\>\<\.,:''"")(]/gi, ''))+'</a>';
                     }
 
                     $('#planets #links').html(content);
@@ -75,6 +82,7 @@
             }
 
             $('a.planets').live('click', function() {
+                console.log($(this).attr('href'));
                 showHover({planet: $(this).attr('href')});
                 return false;
             });
@@ -95,107 +103,8 @@
                     if(idx > 0) gadgets.sciverse.closeHover(idx-1);
                 });
             }
-            
-            var auth = make_basic_auth('exop','Pl4n3t');
-        	var context;
-        	var articleText;
-        	var results = new Array();
-        	var linkTexts = new Array();
-        	var tairUrl = "http://wwwnew.arabidopsis.org/locus/";
-        	var tries = 0;	
 
-            function init(){
-        		tries++;
-        		$('#content').html("Loading...");
-        		gadgets.sciverse.getArticleContent(articleContentCallback);
-        	}
-        	
-        	function make_basic_auth(user, password) {
-        	    var tok = user + ':' + password;
-        	    var hash = Base64.encode(tok);
-        	    return "Basic " + hash;
-        	}
-        	
-        	function articleContentCallback(articleResponse){
-       	 	    articleText = articleResponse;
-       	 	    //send info to the text miner...
-       	 	    makeServiceCall();
-       	    }
-       	 
-       	    function makeServiceCall(){
-       	 	    var serviceUrl = '__UP_serviceUrl__';
-       		    var params = {};
-       		    var postdata = {
-       		        client : "exop",
-       		        app : "exop",
-       		        mimetype  : "text/html",
-       		        key : "__UP_doi__",
-       		        contents: articleText
-       		    };
-       		    params[gadgets.io.RequestParameters.CONTENT_TYPE] = gadgets.io.ContentType.DOM;
-       		    params[gadgets.io.RequestParameters.METHOD] = gadgets.io.MethodType.POST;
-       		    params[gadgets.io.RequestParameters.POST_DATA] = gadgets.io.encodeValues(postdata);
-
-       		    var requestHeaders = {};
-       		    requestHeaders['Authorization'] = auth;
-       		    params[gadgets.io.RequestParameters.HEADERS] = requestHeaders;
-
-       		    gadgets.sciverse.makeRequest(serviceUrl, serviceResponse, params);
-       	    }
-
-       	    function serviceResponse(data){
-       	 	    if(data && data.rc == 200){
-       	 		    $('#content').html("");
-       	 		    var xmlDoc = $.parseXML(data.text);
-       			    var $xml = $(xmlDoc);
-       			    
-       			    //find and create the channel
-       			    var content = '';
-       			    $xml.find("result").each(function(){
-       				    var result = {
-       					    count: $(this).find("count").text(),
-       					    id: $(this).find("id").text(),
-       					    link : tairUrl + $(this).find("id").text()
-       				    }
-       				    
-       				    //$("#content").append("<ul class='link'><li>"+(linkTexts.length + 1)+".</li><li>  <a href='#' onclick='showHover(\""+result.link+"\");return false;'>"+result.id+"</a></li><li>, " + result.count + " time(s)</li></ul>");
-       				    
-       				    linkTexts.push(result.id);
-       				    results.push(result);
-       				    content += '<a class="planets" href="'+$.trim(result.id)+'">'+$.trim(result.id)+'</a>';
-       			    });
-       			    
-       			    $('#planets #links').html(content);
-       			    gadgets.window.adjustHeight();
-       			    
-       			    if(linkTexts.length > 0) 
-                        $('#planets #count').append(linkTexts.length + ' exoplanets has been detected... <br />Click to explore...');
-                    else
-                        $('#planets #count').append('No exoplanets has been detected... <br />Why not check out the demo?');
-                        
-       			    //$("#content").prepend("<div style='text-align:center'><strong>" + linkTexts.length + " Matches Found</strong></div>");
-
-       			    /*if(linkTexts.length > 10){
-       				    gadgets.window.adjustHeight("280");
-       			    }else{
-       				    gadgets.window.adjustHeight();
-       			    }*/
-       			
-       			    /*if(linkTexts.length > 0){
-       				    var categories = ["all"];
-       				    gadgets.sciverse.linkText(linkTexts,categories,"every",1,'linkTextCallback',linkTextCallback);
-       			    }*/
-
-       	 	    }else{
-       	 		    if(tries == 0){
-       	 			    $("#content'").html("No Response from Server: Trying Again");
-       	 			    init();
-       	 		    }else{
-       	 			    $('#content').html("<div>No Response from Server: Tries = " + tries + "</div>");
-       	 			    $("#content').append("<div>To Try Again, <a href='#' onclick='init(); return false;'>Click here</a></div>");
-       	 		    }
-       	 	    }
-       	    }
+            getPlanets();
 
         });
         </script>
@@ -252,10 +161,9 @@
         </style>
 		<script type="text/javascript">
 	    var vp = gadgets.views.getParams();
-        	
 		$(document).ready(function() {
             getPlanet(vp['planet']);
-            
+
             function getPlanet(planet) {
 
                 if(planet == $('#planet').val(planet))
@@ -264,7 +172,7 @@
                 $('#planet').val(planet);
 
                 $('#content').html('<div class="loading">Loading ...</div>');
-                console.log(planet.replace(/\s/g, '_').toLowerCase());
+                //console.log(planet.replace(/\s/g, '_').toLowerCase());
 
                 osapi.http.get({
                     'href' : 'http://science-plus.appspot.com/_planets/'+planet.replace(/\s/g, '_').toLowerCase()+'.json',
@@ -384,13 +292,12 @@
                 $('#hoverCredit').hide();
                 $('#hoverInfo').show();
             }  
-            
-            function noImage(image) {
-                $(image).after('<p>There is no image for this exoplanet currently.</p>').remove();
-            }
                   			   
-        }); // end document ready      
-        
+        }); // end document ready
+                
+        function noImage(image) {
+            $(image).after('<p>There is no image for this exoplanet currently.</p>').remove();
+        }
 		</script>
 		<!-- The code for Hover view is here. -->		
 		<div id="hoverInfo">

@@ -4,7 +4,7 @@
             title="Species+"
             screenshot="http://science-plus.appspot.com/static/species_screenshot.png"
             thumbnail="http://science-plus.appspot.com/static/species_thumbnail.png"
-            description="Species+ extracts species inside articles and display rich species data right inside ScienceDirect view."
+            description="Species+ extracts species inside articles and display rich species data right inside ScienceDirect view. Species+ brings rich and visual data of massive amount of species to your finger tips. Cross-referencing species while doing research is as blissful as you wished."
             author="Science Plus"
             author_email="soe@soe.im">
         <Require feature="opensocial-0.9" />
@@ -28,8 +28,12 @@
 	        -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; border: 1px solid #ddd; }
 	    a.species:hover { background: #fdf7bc; } 
 	    
-	    #species div#count { padding: 6px; margin: 8px 2px; background: #39c; color: #fff; font-size: 14px; font-weight: 400;
-	        -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; }  
+	    #species div#count { padding: 6px; margin: 8px 2px; background: #ff2; text-shadow: 0px 1px 2px #888; color: #666; font-size: 14px; font-weight: 400;
+	        -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; 
+              -moz-box-shadow: 2px 2px 2px #ccc;
+              -webkit-box-shadow: 2px 2px 2px #ccc;
+              box-shadow: 2px 2px 2px #ccc;
+            }  
 	    #searchbox { width: 180px; padding: 2px; font-size: 12px; margin-right: 6px; margin-left: 4px; }
         #searchbutton { font-size: 11px; padding: 3px 8px; background: #76b637; color: #fff; border: 1px solid #777; cursor: pointer;
             -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; } 
@@ -44,13 +48,16 @@
                     var species = [];
 
                     var $suspects = $(art).find('.articleText i');
-                    //var $suspects = $(art).find('i');
+                    //console.log($suspects);
 
                     $suspects.each(function(idx, ele) {
-                        var a = $.trim($(ele).text()).match(/[A-Z][\w]{3,30} [a-z]{4,30}|^[A-Z]{0,1}[\w]{4,30}/);
+                        var a = $.trim($(ele).text()).match(/[A-Z][a-z]{3,30}[\s][a-z]{3,30}/);
+                        //console.log(a);
                         if(a && $.inArray(String(a), species) == '-1')
                             species.push(String(a)); 
                     }); // end $suspects each
+                    
+                    //console.log(species);
 
                     if(species.length > 0) 
                         $('#species #count').append(species.length + ' species has been detected... <br />Click to explore...');
@@ -59,6 +66,7 @@
 
                     var content = '';
                     for(s in species) {
+                        content += '<a class="species" href="'+species[s].split(' ')[0]+'">'+species[s].split(' ')[0]+'</a>';
                         content += '<a class="species" href="'+species[s]+'">'+species[s]+'</a>';
                     }
 
